@@ -58,16 +58,18 @@ import { validUsername } from '@/utils/validate'
 export default {
   name: 'Login',
   data() {
+    //  验证登录的用户名
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+      if (value.length < 5) {
+        callback(new Error('用户名长度不能小于5位'))
       } else {
         callback()
       }
     }
+    //  验证登录密码
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码长度不能小于6位'))
       } else {
         callback()
       }

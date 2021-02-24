@@ -4,9 +4,9 @@ import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
-    token: getToken(),
-    name: '',
-    avatar: ''
+    token: getToken(),  //用户登陆成功的token
+    name: '', //获取用户信息保存用户信息的名称
+    avatar: ''  ////获取用户信息保存用户信息的头像
   }
 }
 

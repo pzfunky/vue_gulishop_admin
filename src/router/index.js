@@ -49,10 +49,45 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: '首页',
+      name: 'Dashboard',  // 后面我们配的所有的路由都要有name值,大写字母开头
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
+  },
+
+  //配置商品管理相关路由
+  {
+    path:'/product',
+    component:Layout,
+    name:'Product',
+    redirect: '/product/trademark/list',
+    meta: { title: '商品管理', icon: 'el-icon-s-shop' },
+    children:[
+      {
+        path:'trademark/list',
+        component:() => import('@/views/product/trademark/List'),
+        name:'Trademark',
+        meta: { title: '品牌管理'},
+      },
+      {
+        path:'attr/list',
+        component:() => import('@/views/product/attr/List'),
+        name:'AttrList',
+        meta: { title: '平台属性管理'},
+      },
+      {
+        path:'spu/list',
+        component:() => import('@/views/product/spu/List'),
+        name:'SpuList',
+        meta: { title: 'SPU管理'},
+      },
+      {
+        path:'sku/list',
+        component:() => import('@/views/product/sku/List'),
+        name:'SkuList',
+        meta: { title: 'SKU管理'},
+      },
+    ]
   },
 
   // 404 page must be placed at the end !!!
