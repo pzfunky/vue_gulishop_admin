@@ -12,8 +12,17 @@ import App from './App'
 import store from './store'
 import router from './router'
 
-import '@/icons' // icon
-import '@/permission' // permission control
+import '@/icons' // icon 引入所有svg图片打包
+import '@/permission' // permission control 引入token校验相关(和权限也有关系)
+
+// import trademark from '@/api/product/trademark'
+// Vue.prototype.$API = trademark
+// this.$API.addOrUpdate()
+//这样写不好,这样写只能把trademark相关的api拿到,后期我们还要写attr等api,$API没有attr的接口,
+//需要去api中整合
+
+import * as API from '@/api/product'
+Vue.prototype.$API = API
 
 /**
  * If you don't want to use mock-server
