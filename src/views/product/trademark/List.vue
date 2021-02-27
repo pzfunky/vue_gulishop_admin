@@ -5,9 +5,10 @@
 
       <!-- 表格 -->
       <el-table
-      :data="trademarkList"
+        :data="trademarkList"
         border
-        style="width: 100%;margin:20px 0">>
+        style="width: 100%;margin:20px 0"
+      >
         <el-table-column
           type="index"
           label="序号"
@@ -67,16 +68,16 @@
 
       <!-- 点击添加或修改弹出的对话框 -->
       <el-dialog title="添加品牌" :visible.sync="dialogFormVisible">
-        <el-form style="width:80%" :model="tmForm">
+        <el-form style="width:80%" :model="tmForm" ref="tmForm"  :rules="rules">
           <!-- 
             form当中都会写一个数据: model="对象" 作用:1.以后用来对这个form表单进行验证
                                                     2.用来标识这个form收集的数据收集到哪
            -->
-          <el-form-item label="品牌名称" label-width="100px">
+          <el-form-item label="品牌名称" label-width="100px" prop="tmName">
             <el-input autocomplete="off" v-model="tmForm.tmName"></el-input>
           </el-form-item>
 
-          <el-form-item label="品牌LOGO" label-width="100px">
+          <el-form-item label="品牌LOGO" label-width="100px" prop="logoUrl">
             <el-upload
               class="avatar-uploader"
               action="/dev-api/admin/product/fileUpload"
@@ -117,6 +118,22 @@ export default {
         tmForm:{
           tmName:'',  //收集我们的品牌名称
           logoUrl:''  //收集我们的品牌logoUrl
+        },
+
+        //表单验证规则
+        rules:{
+          //规则
+          //每个要验证的字段规则都是一个数组
+          //数组里面是对象,每一个对象就代表是验证的一个规则
+          //每个规则对象里包含三个东西:1.规则 2.错误提示信息 3.触发时机
+          //触发时机一共有三个:1.失去焦点blur 2.内容改变change 3.整体验证的时候
+          tmName:[
+            { required: true, message: '请输入品牌名称', trigger: 'blur' },
+            { min:2, max:10,message: '长度在2到10个字符', trigger: 'change' }
+          ],
+          logoUrl:[
+            { required: true, message: '请上传图片' },  //整体验证时触发
+          ]
         }
       }
     },
@@ -162,29 +179,38 @@ export default {
       },
 
       //点击确定按钮发请求添加或者修改品牌
-      async addOrUpdateTrademark(){
-        //获取参数
-        let trademark = this.tmForm
-        // if(trademark.id){
-        //   console.log('我有id');
-        //   console.log(trademark);
-        // }
-        //如果我们的参数数据不符合请求的参数格式,就需要整理数据
-        //发请求
-        try {
-          await this.$API.trademark.addOrUpdate(trademark)
-          //1.提示
-          this.$message.success(trademark.id?'修改品牌成功':'添加品牌成功')
-          //2.关闭dialog
-          this.dialogFormVisible = false
-          //3.重新发请求获取数据
-          this.getTrademarkList(trademark.id?this.page:1)
-        } catch (error) {
-          //1.提示
-          this.$message.warning(trademark.id?'修改品牌失败':'添加品牌失败')
-          //2.关闭dialog
-          this.dialogFormVisible = false
-        }
+      addOrUpdateTrademark(){
+        //整体验证
+        this.$refs.tmForm.validate(async (valid) => {
+          if (valid) {
+            alert('submit!');
+            //获取参数
+            let trademark = this.tmForm
+            // if(trademark.id){
+            //   console.log('我有id');
+            //   console.log(trademark);
+            // }
+            //如果我们的参数数据不符合请求的参数格式,就需要整理数据
+            //发请求
+            try {
+              await this.$API.trademark.addOrUpdate(trademark)
+              //1.提示
+              this.$message.success(trademark.id?'修改品牌成功':'添加品牌成功')
+              //2.关闭dialog
+              this.dialogFormVisible = false
+              //3.重新发请求获取数据
+              this.getTrademarkList(trademark.id?this.page:1)
+            } catch (error) {
+              //1.提示
+              this.$message.warning(trademark.id?'修改品牌失败':'添加品牌失败')
+              //2.关闭dialog
+              this.dialogFormVisible = false
+            }
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        })        
       },
 
       //点击删除按钮
