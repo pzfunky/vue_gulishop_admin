@@ -26,7 +26,7 @@
           label="品牌LOGO"
           width="width">
           <template slot-scope="{row,$index}">
-            <img :src="row.logoUrl" alt="" style="width:80px">
+            <img :src="row.logoUrl" alt="" style="height:60px">
           </template>
         </el-table-column>
 
@@ -34,8 +34,18 @@
           label="操作"
           width="width">
           <template slot-scope="{row,$index}">
-            <el-button type="warning" icon="el-icon-edit" @click="showUpdateDialog(row)">修改</el-button>
-            <el-button type="primary" icon="el-icon-delete" @click="deleteTrademark(row)">删除</el-button>
+            <el-button 
+              type="warning" 
+              icon="el-icon-edit" 
+              @click="showUpdateDialog(row)" 
+              size="mini"
+            >修改</el-button>
+            <el-button 
+              type="danger" 
+              icon="el-icon-delete" 
+              @click="deleteTrademark(row)" 
+              size="mini"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -94,7 +104,7 @@ export default {
     data(){
       return {
         page:1,
-        limit:1,
+        limit:3,
         trademarkList:[],
         total:0,
 
