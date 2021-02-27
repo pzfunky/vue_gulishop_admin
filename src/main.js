@@ -23,6 +23,8 @@ import '@/permission' // permission control 引入token校验相关(和权限也
 
 import * as API from '@/api/product'
 Vue.prototype.$API = API
+import CategorySelector from '@/components/CategorySelector'
+Vue.component('CategorySelector',CategorySelector)
 
 /**
  * If you don't want to use mock-server
