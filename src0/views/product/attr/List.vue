@@ -1,6 +1,12 @@
 <template>
   <div>
-      AttrList
+    <el-card>
+      <CategorySelector/>      
+    </el-card>
+
+    <el-card style="margin-top:20px">
+
+    </el-card>
   </div>
 </template>
 

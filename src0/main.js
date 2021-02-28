@@ -17,6 +17,10 @@ import '@/permission' // permission control
 
 import * as API from '@/api/product'
 Vue.prototype.$API = API
+import HintButton from '@/components/HintButton'
+import CategorySelector from '@/components/CategorySelector'
+Vue.component('HintButton',HintButton)
+Vue.component('CategorySelector',CategorySelector)
 
 /**
  * If you don't want to use mock-server

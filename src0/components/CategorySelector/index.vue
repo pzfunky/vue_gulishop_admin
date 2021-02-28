@@ -1,0 +1,50 @@
+<template>
+    <div>
+        <el-form :inline="true" class="demo-form-inline" :model="cForm">
+
+            <el-form-item label="一级分类">
+                <el-select placeholder="请选择">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+            </el-form-item>
+
+            <el-form-item label="二级分类">
+                <el-select placeholder="请选择">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+            </el-form-item>
+
+            <el-form-item label="三级分类">
+                <el-select placeholder="请选择">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+            </el-form-item>
+
+        </el-form>
+    </div>
+</template>
+
+<script>
+export default {
+    name:'CategorySelector',
+    data(){
+        return {
+            category1List:'',
+            category2List:'',
+            category3List:'',
+            cForm:{
+                category1Id:'',
+                category2Id:'',
+                category3Id:'',
+            }
+        }
+    }
+}
+</script>
+
+<style>
+
+</style>
