@@ -67,13 +67,22 @@
         <!-- spu的添加和修改页面 -->
         <!-- <div> 
         </div> -->
-        <SpuForm v-show="isShowSpuForm"></SpuForm>
+        <!-- <SpuForm 
+          v-show="isShowSpuForm" 
+          :visible="isShowSpuForm" 
+          @updata:visible="isShowSpuForm = $event"
+        ></SpuForm> -->
+        <SpuForm 
+          v-show="isShowSpuForm" 
+          :visible.sync="isShowSpuForm" 
+          ref="spu"
+        ></SpuForm>
 
         <!-- sku的添加页面 -->
         <!-- <div>
-        </div> -->
-        
+        </div> -->        
         <SkuForm v-show="isShowSkuForm"></SkuForm>
+
       </el-card>
   </div>
 </template>
@@ -93,7 +102,7 @@ export default {
         category2Id:'',
         category3Id:'',
         spuList:[],
-        isShowList:true,
+        isShowList: true, //这个数据是为了完成三级分类的可操作性传递过去的,和咱们这边的三个页面显示隐藏没关系
 
         //有分页就得有这三个数据
         page: 1,
@@ -144,10 +153,12 @@ export default {
       //点击添加SPU的回调，显示SPU的添加页面
       showAddSpuForm(){
         this.isShowSpuForm = true
+        this.$refs.spu.getAddSpuFormInitData()
       },
       //点击修改spu的回调，显示Spu的修改页面（其实和添加是同一个页面）
       showUpdateSpuForm(row){
         this.isShowSpuForm = true
+        this.$refs.spu.getUpdateSpuFormInitData(row)
       },
       //点击添加SKU的回调，显示添加SKU的页面
       showAddSkuForm(row){
