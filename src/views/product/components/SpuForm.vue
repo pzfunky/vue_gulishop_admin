@@ -50,7 +50,7 @@
         </el-select>
 
         <el-button type="primary" icon="el-icon-plus">添加销售属性</el-button>
-        
+
         <el-table
           border
           :data="spuForm.spuSaleAttrList"
@@ -182,10 +182,9 @@
       },
 
       //这个方法代表上传成功后的回调
-      handlePictureCardPreview(file) {
+      handlePictureSuccess(res,file,fileList) {
         // 上传成功，也得把最后的图片列表收集起来
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
+        console.log(fileList);
         this.spuImageList = fileList
       },
 
