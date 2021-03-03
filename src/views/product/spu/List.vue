@@ -38,12 +38,15 @@
                   size="mini"
                   title="查看SPU的SKU列表"
                 ></HintButton>
-                <HintButton
-                  type="danger"
-                  icon="el-icon-delete"
-                  size="mini"
-                  title="删除SPU"
-                ></HintButton>
+                <el-popconfirm :title="`你确定删除${row.spuName}吗？`" @onConfirm="deleteSpu(row)">
+                  <HintButton
+                    slot="reference"
+                    type="danger"
+                    icon="el-icon-delete"
+                    size="mini"
+                    title="删除SPU"
+                  ></HintButton>
+                </el-popconfirm>                
               </template>
             </el-table-column>
           </el-table>
@@ -76,6 +79,8 @@
           v-show="isShowSpuForm" 
           :visible.sync="isShowSpuForm" 
           ref="spu"
+          @backSuccess="backSuccess"
+          @cancelSuccess="cancelSuccess"
         ></SpuForm>
 
         <!-- sku的添加页面 -->
@@ -153,16 +158,46 @@ export default {
       //点击添加SPU的回调，显示SPU的添加页面
       showAddSpuForm(){
         this.isShowSpuForm = true
-        this.$refs.spu.getAddSpuFormInitData()
+        this.$refs.spu.getAddSpuFormInitData(this.category3Id)
       },
       //点击修改spu的回调，显示Spu的修改页面（其实和添加是同一个页面）
       showUpdateSpuForm(row){
+        this.flag = row.id  //这个数据只是为了让返回的时候来判断是从哪返回的
         this.isShowSpuForm = true
-        this.$refs.spu.getUpdateSpuFormInitData(row)
+        this.$refs.spu.getUpdateSpuFormInitData(row,this.category3Id)
       },
       //点击添加SKU的回调，显示添加SKU的页面
       showAddSkuForm(row){
         this.isShowSkuForm = true
+      },
+
+      //点击确定保存spu成功返回的回调
+      backSuccess(){
+        //重新发请求获取spu列表数据
+        //判断如何返回 修改返回和添加返回是不一样的
+        if(this.flag){
+          this.getSpuList(this.page)
+        }else{
+          this.getSpuList()
+        }
+        //重置标志位
+        this.flag = null
+      },
+      //取消返回的的回调
+      cancelSuccess(){
+        //重置标志位
+        this.flag = null
+      },
+
+      //删除spu
+      async deleteSpu(row){
+        try {
+          await this.$API.spu.remove(row.id)
+          this.$message.success('删除spu成功')
+          this.getSpuList(this.spuList.length > 1?this.page:this.page - 1)
+        } catch (error) {
+          this.$message.error('删除spu失败')
+        }
       }
 
     }
