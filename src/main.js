@@ -28,6 +28,8 @@ import HintButton from '@/components/HintButton'
 Vue.component('CategorySelector',CategorySelector)
 Vue.component('HintButton',HintButton)
 
+import '@/plugins/vcharts'
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
