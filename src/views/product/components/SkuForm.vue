@@ -95,7 +95,6 @@
 </template>
 
 <script>
-import { category } from '@/api/product'
 export default {
   name: 'SkuForm',
   props:['visible'],

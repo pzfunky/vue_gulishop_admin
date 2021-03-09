@@ -21,7 +21,7 @@ import '@/permission' // permission control 引入token校验相关(和权限也
 //这样写不好,这样写只能把trademark相关的api拿到,后期我们还要写attr等api,$API没有attr的接口,
 //需要去api中整合
 
-import * as API from '@/api/product'
+import * as API from '@/api'
 Vue.prototype.$API = API
 import CategorySelector from '@/components/CategorySelector'
 import HintButton from '@/components/HintButton'

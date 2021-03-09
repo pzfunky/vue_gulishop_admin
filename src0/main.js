@@ -15,7 +15,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-import * as API from '@/api/product'
+import * as API from '@/api'
 Vue.prototype.$API = API
 import HintButton from '@/components/HintButton'
 import CategorySelector from '@/components/CategorySelector'

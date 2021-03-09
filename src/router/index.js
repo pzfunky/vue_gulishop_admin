@@ -30,6 +30,8 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
+ //常量路由 不需要权限数据就可以使用的路由,对应的菜单就可以操作
 export const constantRoutes = [
   {
     path: '/login',
@@ -53,63 +55,178 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
+  }, 
+]
 
-  //配置商品管理相关路由
+//存储的是需要权限数据控制的所有路由,后期需要从这个里面根据用户权限数据过滤出用户需要的路由
+// export const allAsyncRoutes = [
+//    //配置商品管理相关路由
+//    {
+//     path:'/product',
+//     component:Layout,
+//     name:'Product',
+//     redirect: '/product/trademark/list',
+//     meta: { title: '商品管理', icon: 'el-icon-s-shop' },
+//     children:[
+//       {
+//         path:'trademark/list',
+//         component:() => import('@/views/product/trademark/List'),
+//         name:'Trademark',
+//         meta: { title: '品牌管理'},
+//       },
+//       {
+//         path:'attr/list',
+//         component:() => import('@/views/product/attr/List'),
+//         name:'Attr',
+//         meta: { title: '平台属性管理'},
+//       },
+//       {
+//         path:'spu/list',
+//         component:() => import('@/views/product/spu/List'),
+//         name:'Spu',
+//         meta: { title: 'SPU管理'},
+//       },
+//       {
+//         path:'sku/list',
+//         component:() => import('@/views/product/sku/List'),
+//         name:'Sku',
+//         meta: { title: 'SKU管理'},
+//       },
+//       {
+//         path:'sku/category',
+//         component:() => import('@/views/product/category/List'),
+//         name:'Category',
+//         meta: { title: '分类管理'},
+//       },
+//       {
+//         path:'sku/scoped',
+//         component:() => import('@/views/product/scoped/List'),
+//         name:'Scoped',
+//         meta: { title: 'scoped测试'},
+//       },
+//     ]
+//   },
+// ]
+
+  //是根据用户返回的权限数据信息决定是否注册这个路由，这个路由不是常量路由
+
+//页面所有异步路由，需要根据权限数据来从这个路由数组当中过滤出用户所拥有的异步路由
+export const allAsyncRoutes = [
+  //权限数据管理相关的路由
   {
-    path:'/product',
-    component:Layout,
-    name:'Product',
-    redirect: '/product/trademark/list',
-    meta: { title: '商品管理', icon: 'el-icon-s-shop' },
-    children:[
+    name: 'Acl',
+    path: '/acl',
+    component: Layout,
+    redirect: '/acl/user/list',
+    meta: { 
+      title: '权限管理', 
+      icon: 'el-icon-lock' 
+    },
+    children: [
       {
-        path:'trademark/list',
-        component:() => import('@/views/product/trademark/List'),
-        name:'Trademark',
-        meta: { title: '品牌管理'},
+        name: 'User',
+        path: 'user/list',
+        component: () => import('@/views/acl/user/list'),
+        meta: { 
+          title: '用户管理', 
+        },
       },
       {
-        path:'attr/list',
-        component:() => import('@/views/product/attr/List'),
-        name:'AttrList',
-        meta: { title: '平台属性管理'},
+        name: 'Role',
+        path: 'role/list',
+        component: () => import('@/views/acl/role/list'),
+        meta: { 
+          title: '角色管理', 
+        },
       },
       {
-        path:'spu/list',
-        component:() => import('@/views/product/spu/List'),
-        name:'SpuList',
-        meta: { title: 'SPU管理'},
+        name: 'RoleAuth',
+        path: 'role/auth/:id',
+        component: () => import('@/views/acl/role/roleAuth'),
+        meta: {
+          activeMenu: '/acl/role/list',
+          title: '角色授权',
+        },
+        hidden: true,
       },
       {
-        path:'sku/list',
-        component:() => import('@/views/product/sku/List'),
-        name:'SkuList',
-        meta: { title: 'SKU管理'},
-      },
-      {
-        path:'sku/category',
-        component:() => import('@/views/product/category/List'),
-        name:'Category',
-        meta: { title: '分类管理'},
-      },
-      {
-        path:'sku/scoped',
-        component:() => import('@/views/product/scoped/List'),
-        name:'Scoped',
-        meta: { title: 'scoped测试'},
+        name: 'Permission',
+        path: 'permission/list',
+        component: () => import('@/views/acl/permission/list'),
+        meta: { 
+          title: '菜单管理',
+        },
       },
     ]
   },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  //商品管理相关的路由,不是常量路由
+  {
+    path:'/product',
+    component:Layout,  //首先得显示一级路由组件
+    name:'Product',
+    redirect: '/product/trademark/list',
+    meta:{title: '商品管理', icon: 'el-icon-s-shop'},
+    children:[
+      {
+        path:'trademark/list',
+        component: () => import('@/views/product/trademark/List'),
+        name:'Trademark',
+        meta:{title: '品牌管理'}
+      },
+      {
+        path:'attr/list',
+        component: () => import('@/views/product/attr/List'),
+        name:'Attr',
+        meta:{title: '属性管理'}
+      },
+      {
+        path:'sku/list',
+        component: () => import('@/views/product/sku/List'),
+        name:'Sku',
+        meta:{title: 'sku管理'}
+      },
+      {
+        path:'spu/list',
+        component: () => import('@/views/product/spu/List'),
+        name:'Spu',
+        meta:{title: 'spu管理'}
+      },
+    ]
+  },
+  // //测试相关的异步路由
+  
+  // {
+  //     path:'/test',
+  //     component:Layout,  //首先得显示一级路由组件
+  //     name:'Test',
+  //     redirect: '/test/test1/list',
+  //     meta:{title: '测试管理', icon: 'el-icon-edit'},
+  //     children:[
+  //       {
+  //         path:'test1/list',
+  //         component: () => import('@/views/test/test1/List'),
+  //         name:'Test1',
+  //         meta:{title: '测试111'}
+  //       },
+  //       {
+  //         path:'test2/list',
+  //         component: () => import('@/views/test/test2/List'),
+  //         name:'Test2',
+  //         meta:{title: '测试222'}
+  //       }
+  //     ]
+  // }
+  
 ]
+
+//任意路由,当用户随意的输入一个路径,应该显示404,任意路由必须注册在最后一个
+export const anyRoute = { path:"*", redirect:'/404', hidden:true }
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: constantRoutes  
+  //一开始没做权限的时候,这里面只有常量路由,后面是需要动态添加用户自己的异步路由和任意路由
 })
 
 const router = createRouter()
