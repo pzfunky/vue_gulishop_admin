@@ -41,7 +41,7 @@ module.exports = {
     proxy:{
       "/dev-api":{
         //转发的目标服务器地址
-        target:"http://182.92.128.115",
+        target:"http://39.98.123.211",
         pathRewrite:{"^/dev-api":""}
       }
     }
